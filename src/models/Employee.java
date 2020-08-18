@@ -11,39 +11,39 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-@Table(name = "employee")
+@Table(name = "employees")
 @NamedQueries({
-	@NamedQuery(
-			name = "getAllEmployees",
-			query = "select e from Employee as e order by e.id desc"
-			),
-	@NamedQuery(
-			name = "getEmployeeCount",
-			query = "select count(e) from Employee as e"
-			),
-	@NamedQuery(
-			name = "checkRegisteredCode",
-			query = "select count(e) from Employee as e where e.code = :code"
-			),
-	@NamedQuery(
-			name = "checkLoginCodePassword",
-			query = "select e from Employee as e where e.delete_flag = 0 and e.code = :code and e.password = :pass"
-			)
+    @NamedQuery(
+            name = "getAllEmployees",
+            query = "SELECT e FROM Employee AS e ORDER BY e.id DESC"
+            ),
+    @NamedQuery(
+            name = "getEmployeesCount",
+            query = "SELECT COUNT(e) FROM Employee AS e"
+            ),
+    @NamedQuery(
+            name = "checkRegisteredCode",
+            query = "SELECT COUNT(e) FROM Employee AS e WHERE e.code = :code"
+            ),
+    @NamedQuery(
+            name = "checkLoginCodeAndPassword",
+            query = "SELECT e FROM Employee AS e WHERE e.delete_flag = 0 AND e.code = :code AND e.password = :pass"
+            )
 })
 @Entity
 public class Employee {
-	@Id
-	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@Column(name = "code", nullable = false, unique = true)
-	private String code;
+    @Column(name = "code", nullable = false, unique = true)
+    private String code;
 
-	@Column(name = "name", nullable =false)
-	private String name;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-	@Column(name = "password", length = 64, nullable = false)
+    @Column(name = "password", length = 64, nullable = false)
     private String password;
 
     @Column(name = "admin_flag", nullable = false)
