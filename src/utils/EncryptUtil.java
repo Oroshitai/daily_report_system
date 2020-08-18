@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.xml.bind.DatatypeConverter;
 
-public class EcryptUtil {
+public class EncryptUtil {
 	public static String getPasswordEncrypt(String plain_p, String pepper){
 		String ret = "";
 
@@ -20,6 +20,4 @@ public class EcryptUtil {
 
 		return ret;
 	}
-
-
 }
