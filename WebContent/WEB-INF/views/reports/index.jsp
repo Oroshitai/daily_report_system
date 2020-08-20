@@ -37,7 +37,7 @@
 						<c:out value="${i}" />&nbsp;
 					</c:when>
 					<c:otherwise>
-						<a href="<url value='/reports/index?page=${i}' />"><c:out value="${i}" /></a>&nbsp;
+						<a href="<c:url value='/reports/index?page=${i}' />"><c:out value="${i}" /></a>&nbsp;
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
