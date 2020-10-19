@@ -167,6 +167,11 @@ h3{
 	width: 50%;
 }
 
+.approver-name p{
+	margin: 0;
+	line-height: 35px;
+}
+
 .approver-button{
 	width: 30%;
 }

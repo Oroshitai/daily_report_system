@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @NamedQueries({
 		@NamedQuery(
 				name = "getProjectMembers",
-				query = "select pe from ProjectEmployee as pe where pe.project_id = :project order by pe.id desc"
+				query = "select pe from ProjectEmployee as pe where pe.project_id = :project order by pe.leader_flag desc"
 				),
 		@NamedQuery(
 				name = "getProjectLeader",

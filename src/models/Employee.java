@@ -31,19 +31,19 @@ import javax.persistence.Table;
             ),
     @NamedQuery(
     		name = "getSearchedEmployeeByName",
-    		query = "SELECT e FROM Employee AS e WHERE e.name LIKE :name"
+    		query = "SELECT e FROM Employee AS e WHERE e.name LIKE :name AND e.delete_flag = 0"
     		),
     @NamedQuery(
     		name = "getSearchedEmployeeByCode",
-    		query = "SELECT e FROM Employee AS e WHERE e.code LIKE :code"
+    		query = "SELECT e FROM Employee AS e WHERE e.code LIKE :code AND e.delete_flag = 0"
     		),
     @NamedQuery(
     		name = "getSearchedEmployeeByNameAndCode",
-    		query = "SELECT e FROM Employee AS e WHERE e.name LIKE :name AND e.code LIKE :code"
+    		query = "SELECT e FROM Employee AS e WHERE e.name LIKE :name AND e.code LIKE :code AND e.delete_flag = 0"
     		),
     @NamedQuery(
     		name = "getDirectors",
-    		query = "select e from Employee as e where e.admin_flag = 1"
+    		query = "SELECT e FROM Employee AS e WHERE e.admin_flag = 1"
     		)
 })
 @Entity

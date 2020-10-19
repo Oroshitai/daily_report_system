@@ -16,7 +16,7 @@
 			<br /><br />
 
 			<label for="employee_code">従業員番号</label><br />
-			<input type="number" name="employee_code">
+			<input type="text" name="employee_code">
 			<br /><br />
 
 			<input type="hidden" name="_token" value="${_token}">

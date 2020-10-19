@@ -15,11 +15,11 @@ import javax.persistence.Table;
 @NamedQueries({
 	@NamedQuery(
 			name = "getAllProjects",
-			query = "select p from Project as p order by p.id desc"
+			query = "SELECT p FROM Project AS p ORDER BY p.id DESC"
 			),
 	@NamedQuery(
 			name = "getProjectsCount",
-			query = "select count(p) from Project as p"
+			query = "SELECT COUNT(p) FROM Project AS p"
 			)
 })
 @Table(name = "projects")
@@ -37,10 +37,6 @@ public class Project {
 
 	@Column(name = "status_flag", nullable = false)
 	private Integer status_flag;
-
-	/*@ManyToOne
-	@JoinColumn(name = "employee_id")
-	private Employee employee;*/
 
 	@Column(name = "created_at", nullable = false)
 	private Timestamp created_at;
@@ -79,15 +75,6 @@ public class Project {
 	public void setStatus_flag(Integer status_flag){
 		this.status_flag = status_flag;
 	}
-
-	/*public Employee getEmployee(){
-		return employee;
-	}
-
-	public void setEmployee(Employee employee){
-		this.employee = employee;
-	}*/
-
 
 	public Timestamp getCreated_at(){
 		return created_at;

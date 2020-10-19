@@ -4,6 +4,7 @@
 <c:import url="../layout/app.jsp">
 	<c:param name="content">
 		<h2>承認者編集</h2>
+		<p>承認者をPLか部長の中から選択してください</p>
 
 		<form method="POST" action="${pageContext.request.contextPath}/approvals/approverUpdate">
 			<table>

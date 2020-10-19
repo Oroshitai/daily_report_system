@@ -53,7 +53,7 @@
 							<th>承認者</th>
 							<td class="approver-show">
 								<div class="approver-name">
-									<c:out value="${approval.employee.name}" />
+									<p><c:out value="${approval.employee.name}" /></p>
 								</div>
 								<div class="approver-button">
 									<form method="POST" action="${pageContext.request.contextPath}/approvals/approverSelect">
