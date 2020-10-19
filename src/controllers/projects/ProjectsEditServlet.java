@@ -1,7 +1,6 @@
-package controllers.reports;
+package controllers.projects;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -13,20 +12,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.Project;
-import models.Report;
+import models.ProjectEmployee;
 import utils.DBUtil;
 
 /**
- * Servlet implementation class ReportsNewServlet
+ * Servlet implementation class ProjectsEditServlet
  */
-@WebServlet("/reports/new")
-public class ReportsNewServlet extends HttpServlet {
+@WebServlet("/projects/edit")
+public class ProjectsEditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReportsNewServlet() {
+    public ProjectsEditServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,27 +36,27 @@ public class ReportsNewServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		EntityManager em = DBUtil.createEntityManager();
 
-		//プロジェクト情報を取得
-		List<Project> projects = em.createNamedQuery("getAllProjects", Project.class)
-													.getResultList();
+		//プロジェクト情報の検索
+		Project p = em.find(Project.class, Integer.parseInt(request.getParameter("id")));
+
+		//メンバー情報の検索
+		List<ProjectEmployee> pes = em.createNamedQuery("getProjectMembers", ProjectEmployee.class)
+										.setParameter("project", p)
+										.getResultList();
 
 		em.close();
 
-		Report r = new Report();
-
-		//現在の日付を保存
-		r.setReport_date(new Date(System.currentTimeMillis()));
-
-		//リクエストスコープに値を格納
-		request.setAttribute("report", r);
-		request.setAttribute("projects", projects);
+		//スコープに値格納
+		request.getSession().setAttribute("project_editing", p);
 		request.setAttribute("_token", request.getSession().getId());
+		request.getSession().setAttribute("pes", pes);
 
-		request.getSession().setAttribute("postURL", "create");
+		//セッションスコープにURL格納
+		request.getSession().setAttribute("postURL", "update");
+		request.getSession().setAttribute("getURL", "edit.jsp");
 
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/reports/new.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/projects/edit.jsp");
 		rd.forward(request, response);
-
 	}
 
 }

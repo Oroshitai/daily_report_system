@@ -156,3 +156,17 @@ pre {
 h3{
 	font-size: larger;
 }
+
+.approver-show{
+	display: flex;
+	justify-content: space-between;
+	border: none;
+}
+
+.approver-name{
+	width: 50%;
+}
+
+.approver-button{
+	width: 30%;
+}

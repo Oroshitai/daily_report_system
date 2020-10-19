@@ -1,4 +1,4 @@
-package controllers.employees;
+package controllers.projects;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -10,20 +10,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import models.Employee;
+import models.Project;
 import utils.DBUtil;
 
 /**
- * Servlet implementation class EmployeesDestroyServlet
+ * Servlet implementation class ProjectsDestroyServlet
  */
-@WebServlet("/employees/destroy")
-public class EmployeesDestroyServlet extends HttpServlet {
+@WebServlet("/projects/destroy")
+public class ProjectsDestroyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public EmployeesDestroyServlet() {
+    public ProjectsDestroyServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,20 +32,27 @@ public class EmployeesDestroyServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String _token = (String)request.getParameter("_token");
+		String _token = request.getParameter("_token");
 		if(_token != null && _token.equals(request.getSession().getId())){
 			EntityManager em = DBUtil.createEntityManager();
 
-			Employee e = em.find(Employee.class, (Integer)(request.getSession().getAttribute("employee_id")));
-			e.setDelete_flag(1);
-			e.setUpdated_at(new Timestamp(System.currentTimeMillis()));
+			//編集中のプロジェクト情報を取得
+			Project project_editing = (Project)request.getSession().getAttribute("project_editing");
+			Project p = em.find(Project.class, project_editing.getId());
+
+			//プロジェクト情報を論理削除
+			p.setDelete_flag(1);
+			p.setUpdated_at(new Timestamp(System.currentTimeMillis()));
 
 			em.getTransaction().begin();
 			em.getTransaction().commit();
 			em.close();
-			request.getSession().setAttribute("flush", "削除が完了しました。");
 
-			response.sendRedirect(request.getContextPath() + "/employees/index");
+			request.getSession().removeAttribute("project_editing");
+
+			request.setAttribute("flush", "プロジェクトを削除しました");
+
+			response.sendRedirect(request.getContextPath() + "/projects/index");
 
 		}
 	}

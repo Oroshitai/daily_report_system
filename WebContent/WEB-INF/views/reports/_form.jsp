@@ -23,11 +23,21 @@
 <input type="text" name="title" value="${report.title}" />
 <br /><br />
 
+<label for="project">プロジェクト名</label><br />
+<select name="projectId">
+	<c:forEach var="project" items="${projects}">
+    	<option value="${project.id}" <c:if test="${project.id == report.project.id}">selected</c:if>>
+    		<c:out value="${project.title}" />
+    	</option>
+    </c:forEach>
+</select>
+<br /><br />
 
 <label for="content">内容</label><br />
 <textarea name="content" rows="10" cols="50">${report.content}</textarea>
 <br /><br />
 
-<input type="hidden" name="_token" value="${_token}" />
-<button type="submit">投稿</button>
-
+<input type="hidden" name="_token" value="${_token}">
+<!-- <input type="button" onclick="funcClick('<c:url value='/reports/申請先のURL'  />')" value="申請"> -->
+<input type="button" onclick="funcClick('<c:url value='/reports/${sessionScope.postURL}'  />')" value="投稿">
+<br /><br />

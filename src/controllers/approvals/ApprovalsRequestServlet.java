@@ -1,9 +1,9 @@
-package controllers.reports;
+package controllers.approvals;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
 import javax.persistence.EntityManager;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,16 +15,16 @@ import models.Report;
 import utils.DBUtil;
 
 /**
- * Servlet implementation class ReportShowServlet
+ * Servlet implementation class ApprovalsRequestServlet
  */
-@WebServlet("/reports/show")
-public class ReportShowServlet extends HttpServlet {
+@WebServlet("/approvals/request")
+public class ApprovalsRequestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReportShowServlet() {
+    public ApprovalsRequestServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,28 +35,33 @@ public class ReportShowServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		EntityManager em = DBUtil.createEntityManager();
 
+		//申請する日報情報を取得
 		Report r = em.find(Report.class, Integer.parseInt(request.getParameter("id")));
 
-		//承認情報を取得
+		//過去の承認情報を取得
 		Approval a = em.createNamedQuery("getLatestStatus", Approval.class)
 										.setParameter("report", r)
 										.getSingleResult();
 
-		//プロジェクトIDを取得（プロジェクト詳細リターン用）
-		if(request.getParameter("project_id") != null){
-			request.setAttribute("project_id", request.getParameter("project_id"));
-		}
+		//承認ステータスに申請を追加
+		Approval a_new = new Approval();
+		a_new.setApprovalStatus(1);
+		a_new.setApproverComment("");
+		a_new.setReport(r);
+		a_new.setEmployee(a.getEmployee());
+
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+		a_new.setCreated_at(currentTime);
 
 
+		em.getTransaction().begin();
+		em.persist(a_new);
+		em.getTransaction().commit();
 		em.close();
 
-		request.setAttribute("report", r);
-		request.setAttribute("_token", request.getSession().getId());
-		request.setAttribute("approval", a);
+		request.getSession().setAttribute("flush", "申請しました");
 
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/reports/show.jsp");
-		rd.forward(request, response);
-
+		response.sendRedirect(request.getContextPath() + "/index.html");
 	}
 
 }

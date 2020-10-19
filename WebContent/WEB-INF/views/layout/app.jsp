@@ -18,6 +18,9 @@
 							<a href="<c:url value='/employees/index' />">従業員管理</a>&nbsp;
 						</c:if>
 						<a href="<c:url value='/reports/index' />">日報管理</a>&nbsp;
+						<c:if test="${sessionScope.login_employee.admin_flag == 1}">
+							<a href="${pageContext.request.contextPath}/projects/index">プロジェクト管理</a>&nbsp;
+						</c:if>
 					</c:if>
 				</div>
 				<c:if test="${sessionScope.login_employee != null}">
@@ -30,10 +33,17 @@
 
 			</div>
 			<div id="content">
+				<c:if test="${approvalNoticeFlushes.size() > 0}">
+				<div id="flush_success">
+					<c:forEach var="flush" items="${approvalNoticeFlushes}">
+						<a href="${pageContext.request.contextPath}/index.html"><c:out value="${flush}" /><br /></a>
+					</c:forEach>
+				</div>
+				</c:if>
 				${param.content}
 			</div>
 			<div id="footer">
-				by Taro Kirameki.
+				by Shinya Takaramoto.
 			</div>
 
 		</div>

@@ -28,7 +28,23 @@ import javax.persistence.Table;
     @NamedQuery(
             name = "checkLoginCodeAndPassword",
             query = "SELECT e FROM Employee AS e WHERE e.delete_flag = 0 AND e.code = :code AND e.password = :pass"
-            )
+            ),
+    @NamedQuery(
+    		name = "getSearchedEmployeeByName",
+    		query = "SELECT e FROM Employee AS e WHERE e.name LIKE :name"
+    		),
+    @NamedQuery(
+    		name = "getSearchedEmployeeByCode",
+    		query = "SELECT e FROM Employee AS e WHERE e.code LIKE :code"
+    		),
+    @NamedQuery(
+    		name = "getSearchedEmployeeByNameAndCode",
+    		query = "SELECT e FROM Employee AS e WHERE e.name LIKE :name AND e.code LIKE :code"
+    		),
+    @NamedQuery(
+    		name = "getDirectors",
+    		query = "select e from Employee as e where e.admin_flag = 1"
+    		)
 })
 @Entity
 public class Employee {
@@ -121,4 +137,14 @@ public class Employee {
     public void setDelete_flag(Integer delete_flag) {
         this.delete_flag = delete_flag;
     }
+
+    /*
+    public Project getProject(){
+    	return project;
+    }
+
+    public void setProject(Project project){
+    	this.project = project;
+    }*/
+
 }

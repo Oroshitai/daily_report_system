@@ -10,7 +10,80 @@
 			</div>
 		</c:if>
 		<h2>日報管理システムへようこそ</h2>
-		<h3>【自分の日報一覧】</h3>
+
+		<c:if test="${approvals_requested.size() > 0}">
+			<h3>【申請されている日報一覧】</h3>
+			<table id="report_list">
+				<tbody>
+					<tr>
+						<th class="report_name">氏名</th>
+						<th class="report_date">日付</th>
+						<th class="report_title">タイトル</th>
+						<th class="report_action">操作</th>
+					</tr>
+					<c:forEach var="approval" items="${approvals_requested}" varStatus="status">
+						<tr class="row${status.count % 2}">
+							<td class="report_name"><c:out value="${approval.employee.name}" /></td>
+							<td class="report_date"><fmt:formatDate value="${approval.report.report_date}" pattern='yyyy-MM-dd' /></td>
+							<td class="report_title"><c:out value="${approval.report.title}" /></td>
+							<td class="report_action"><a href="<c:url value='/approvals/check?id=${approval.report.id}' />">承認ページ</a></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+			（全 ${approvals_requested.size()} 件）
+		</c:if>
+		<br /><br />
+
+		<c:if test="${approvals_remanded.size() > 0}">
+			<h3>【差し戻された日報一覧】</h3>
+			<table id="report_list">
+				<tbody>
+					<tr>
+						<th class="report_name">氏名</th>
+						<th class="report_date">日付</th>
+						<th class="report_title">タイトル</th>
+						<th class="report_action">操作</th>
+					</tr>
+					<c:forEach var="approval" items="${approvals_remanded}" varStatus="status">
+						<tr class="row${status.count % 2}">
+							<td class="report_name"><c:out value="${approval.employee.name}" /></td>
+							<td class="report_date"><fmt:formatDate value="${approval.report.report_date}" pattern='yyyy-MM-dd' /></td>
+							<td class="report_title"><c:out value="${approval.report.title}" /></td>
+							<td class="report_action"><a href="<c:url value='/reports/show?id=${approval.report.id}' />">詳細を見る</a></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+			（全 ${approvals_remanded.size()} 件）
+		</c:if>
+		<br /><br />
+
+		<c:if test="${approvals_editing.size() > 0}">
+			<h3>【作業中の日報一覧】</h3>
+			<table id="report_list">
+				<tbody>
+					<tr>
+						<th class="report_name">氏名</th>
+						<th class="report_date">日付</th>
+						<th class="report_title">タイトル</th>
+						<th class="report_action">操作</th>
+					</tr>
+					<c:forEach var="approval" items="${approvals_editing}" varStatus="status">
+						<tr class="row${status.count % 2}">
+							<td class="report_name"><c:out value="${approval.employee.name}" /></td>
+							<td class="report_date"><fmt:formatDate value="${approval.report.report_date}" pattern='yyyy-MM-dd' /></td>
+							<td class="report_title"><c:out value="${approval.report.title}" /></td>
+							<td class="report_action"><a href="<c:url value='/reports/show?id=${approval.report.id}' />">詳細を見る</a></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+			（全 ${approvals_editing.size()} 件）
+		</c:if>
+		<br /><br />
+
+		<h3>【承認された自分の日報一覧】</h3>
 		<table id="report_list">
 			<tbody>
 				<tr>
@@ -19,12 +92,12 @@
 					<th class="report_title">タイトル</th>
 					<th class="report_action">操作</th>
 				</tr>
-				<c:forEach var="report" items="${reports}" varStatus="status">
+				<c:forEach var="approval" items="${approvals_approved}" varStatus="status">
 					<tr class="row${status.count % 2}">
-						<td class="report_name"><c:out value="${report.employee.name}" /></td>
-						<td class="report_date"><fmt:formatDate value="${report.report_date}" pattern='yyyy-MM-dd' /></td>
-						<td class="report_title"><c:out value="${report.title}" /></td>
-						<td class="report_action"><a href="<c:url value='/reports/show?id=${report.id}' />">詳細を見る</a></td>
+						<td class="report_name"><c:out value="${approval.report.employee.name}" /></td>
+						<td class="report_date"><fmt:formatDate value="${approval.report.report_date}" pattern='yyyy-MM-dd' /></td>
+						<td class="report_title"><c:out value="${approval.report.title}" /></td>
+						<td class="report_action"><a href="<c:url value='/reports/show?id=${approval.report.id}' />">詳細を見る</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>

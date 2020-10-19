@@ -31,7 +31,10 @@ import javax.persistence.Table;
 	@NamedQuery(
 			name = "getMyReportsCount",
 			query = "select count(r) from Report as r where r.employee = :employee"
-			)
+			),
+	@NamedQuery(
+			name = "getProjectReports",
+			query = "select r from Report as r where r.project = :project")
 })
 
 @Entity
@@ -44,6 +47,10 @@ public class Report {
 	@ManyToOne
 	@JoinColumn(name = "employee_id", nullable = false)
 	private Employee employee;
+
+	@ManyToOne
+	@JoinColumn(name = "project_id", nullable = false)
+	private Project project;
 
 	@Column(name = "report_date", nullable = false)
 	private Date report_date;
@@ -59,6 +66,13 @@ public class Report {
 
 	@Column(name = "updated_at", nullable = false)
 	private Timestamp updated_at;
+
+	public Project getProject() {
+		return project;
+	}
+	public void setProject(Project project) {
+		this.project = project;
+	}
 
 	public Integer getId(){
 		return id;

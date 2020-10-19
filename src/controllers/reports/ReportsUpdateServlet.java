@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Project;
 import models.Report;
 import models.validators.ReportValidator;
 import utils.DBUtil;
@@ -47,6 +48,10 @@ public class ReportsUpdateServlet extends HttpServlet {
 			r.setContent(request.getParameter("content"));
 			r.setUpdated_at(new Timestamp(System.currentTimeMillis()));
 
+			//プロジェクト情報を取得
+			Project p = em.find(Project.class, Integer.parseInt(request.getParameter("projectId")));
+			r.setProject(p);
+
 			List<String> errors = ReportValidator.validator(r);
 			if(errors.size() > 0){
 				em.close();
@@ -64,6 +69,7 @@ public class ReportsUpdateServlet extends HttpServlet {
 				request.getSession().setAttribute("flush",  "更新が完了しました。");
 
 				request.getSession().removeAttribute("report_id");
+				request.getSession().removeAttribute("postURL");
 
 				response.sendRedirect(request.getContextPath() + "/reports/index");
 			}

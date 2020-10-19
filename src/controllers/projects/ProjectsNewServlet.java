@@ -1,10 +1,9 @@
-package controllers.reports;
+package controllers.projects;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,20 +12,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.Project;
-import models.Report;
-import utils.DBUtil;
+import models.ProjectEmployee;
 
 /**
- * Servlet implementation class ReportsNewServlet
+ * Servlet implementation class ProjectsNewServlet
  */
-@WebServlet("/reports/new")
-public class ReportsNewServlet extends HttpServlet {
+@WebServlet("/projects/new")
+public class ProjectsNewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReportsNewServlet() {
+    public ProjectsNewServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,29 +33,20 @@ public class ReportsNewServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		EntityManager em = DBUtil.createEntityManager();
-
-		//プロジェクト情報を取得
-		List<Project> projects = em.createNamedQuery("getAllProjects", Project.class)
-													.getResultList();
-
-		em.close();
-
-		Report r = new Report();
-
-		//現在の日付を保存
-		r.setReport_date(new Date(System.currentTimeMillis()));
-
-		//リクエストスコープに値を格納
-		request.setAttribute("report", r);
-		request.setAttribute("projects", projects);
 		request.setAttribute("_token", request.getSession().getId());
 
+		//プロジェクトの初期値
+		Project p = new Project();
+		List<ProjectEmployee> pes = new ArrayList<ProjectEmployee>();
+		request.getSession().setAttribute("project_editing", p);
+		request.getSession().setAttribute("pes", pes);
+
+		//URLをセッションスコープに保存
 		request.getSession().setAttribute("postURL", "create");
+		request.getSession().setAttribute("getURL", "new.jsp");
 
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/reports/new.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/projects/new.jsp");
 		rd.forward(request, response);
-
 	}
 
 }
