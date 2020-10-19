@@ -19,6 +19,7 @@
 			<input type="number" name="employee_code">
 			<br /><br />
 
+			<input type="hidden" name="_token" value="${_token}">
 			<button type="submit">検索</button>
 			<br /><br />
 		</form>

@@ -71,6 +71,8 @@ public class EmployeeFind extends HttpServlet {
 
 			em.close();
 
+			request.setAttribute("_token", request.getSession().getId());
+
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/search/employeeSearch.jsp");
 			rd.forward(request, response);
 		}
