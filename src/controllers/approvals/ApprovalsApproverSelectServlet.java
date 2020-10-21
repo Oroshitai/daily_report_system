@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -44,16 +45,24 @@ public class ApprovalsApproverSelectServlet extends HttpServlet {
 			Report r = em.find(Report.class, Integer.parseInt(request.getParameter("report_id")));
 
 			//承認情報を取得
+
 			Approval a = em.find(Approval.class, Integer.parseInt(request.getParameter("approval_id")));
 
 			//部長情報を取得
 			List<Employee> directors = em.createNamedQuery("getDirectors", Employee.class)
-					.getResultList();
+											.getResultList();
 
 			//PL情報を取得
-			ProjectEmployee pe = em.createNamedQuery("getProjectLeader", ProjectEmployee.class)
-					.setParameter("project", r.getProject())
-					.getSingleResult();
+			ProjectEmployee pe = new ProjectEmployee();
+
+			try{
+				em.createNamedQuery("getProjectLeader", ProjectEmployee.class)
+				.setParameter("project", r.getProject())
+				.getSingleResult();
+			} catch(NoResultException nre){}
+
+
+
 
 			request.setAttribute("_token", request.getSession().getId());
 			request.setAttribute("report", r);

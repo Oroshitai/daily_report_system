@@ -21,7 +21,14 @@
 						<tr>
 							<th>プロジェクト情報</th>
 							<td>
-								<c:out value="${report.project.title}" />(客先：<c:out value="${report.project.customer}" />)
+								<c:choose>
+									<c:when test="${report.project == null}">
+										プロジェクト無所属
+									</c:when>
+									<c:otherwise>
+										<c:out value="${report.project.title}" />(客先：<c:out value="${report.project.customer}" />)
+									</c:otherwise>
+								</c:choose>
 							</td>
 						</tr>
 						<tr>
@@ -52,17 +59,26 @@
 						<tr>
 							<th>承認者</th>
 							<td class="approver-show">
-								<div class="approver-name">
-									<p><c:out value="${approval.employee.name}" /></p>
-								</div>
-								<div class="approver-button">
-									<form method="POST" action="${pageContext.request.contextPath}/approvals/approverSelect">
-										<input type="hidden" name="report_id" value="${report.id}">
-										<input type="hidden" name="approval_id" value="${approval.id}">
-										<input type="hidden" name="_token" value="${_token}">
-										<button type="submit">承認者変更</button>
-									</form>
-								</div>
+								<c:choose>
+									<c:when test="${approval.employee == null}">
+										<p>承認者を選択してください</p>
+									</c:when>
+									<c:otherwise>
+										<div class="approver-name">
+											<p><c:out value="${approval.employee.name}" /></p>
+										</div>
+									</c:otherwise>
+								</c:choose>
+								<c:if test="${approval.approvalStatus == 0}">
+									<div class="approver-button">
+										<form method="POST" action="${pageContext.request.contextPath}/approvals/approverSelect">
+											<input type="hidden" name="report_id" value="${report.id}">
+											<input type="hidden" name="approval_id" value="${approval.id}">
+											<input type="hidden" name="_token" value="${_token}">
+											<button type="submit">承認者変更</button>
+										</form>
+									</div>
+								</c:if>
 							</td>
 						</tr>
 						<c:if test="${approval.approvalStatus == 2 || approval.approvalStatus == 3}">
@@ -77,7 +93,9 @@
 				<c:if  test="${sessionScope.login_employee.id == report.employee.id}">
 					<!-- 承認後、申請中は編集不可にする -->
 					<c:if test="${approval.approvalStatus == 0 || approval.approvalStatus == 3}">
-						<p><a href="<c:url value='/approvals/request?id=${report.id}' />">この日報を申請する</a></p>
+						<c:if test="${approval.employee != null}">
+							<p><a href="<c:url value='/approvals/request?id=${report.id}' />">この日報を申請する</a></p>
+						</c:if>
 						<p><a href="<c:url value='/reports/edit?id=${report.id}' />">この日報を編集する</a></p>
 					</c:if>
 				</c:if>

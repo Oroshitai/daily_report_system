@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +14,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.PropertyValueException;
+
+import models.Approval;
 import models.Project;
+import models.ProjectEmployee;
 import models.Report;
 import models.validators.ReportValidator;
 import utils.DBUtil;
@@ -37,11 +42,17 @@ public class ReportsUpdateServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String _token = (String)request.getParameter("_token");
+		String _token = request.getParameter("_token");
 		if(_token != null && _token.equals(request.getSession().getId())){
 			EntityManager em = DBUtil.createEntityManager();
 
+			//編集する日報情報を取得
 			Report r = em.find(Report.class, (Integer)(request.getSession().getAttribute("report_id")));
+
+			//承認情報を取得
+			Approval a = em.createNamedQuery("getLatestStatus", Approval.class)
+							.setParameter("report", r)
+							.getSingleResult();
 
 			r.setReport_date(Date.valueOf(request.getParameter("report_date")));
 			r.setTitle(request.getParameter("title"));
@@ -49,8 +60,25 @@ public class ReportsUpdateServlet extends HttpServlet {
 			r.setUpdated_at(new Timestamp(System.currentTimeMillis()));
 
 			//プロジェクト情報を取得
-			Project p = em.find(Project.class, Integer.parseInt(request.getParameter("projectId")));
-			r.setProject(p);
+			Project p = new Project();
+			ProjectEmployee pe = new ProjectEmployee();
+			try{
+				p = em.find(Project.class, Integer.parseInt(request.getParameter("projectId")));
+
+				//承認者情報を取得
+				pe = em.createNamedQuery("getProjectLeader", ProjectEmployee.class)
+						.setParameter("project", p)
+						.getSingleResult();
+
+				r.setProject(p);
+
+			} catch(NumberFormatException nfe){
+			} catch(PropertyValueException pve){
+			} catch(PersistenceException pex){}
+
+
+			//承認者を更新
+			a.setEmployee(pe.getEmployee_id());
 
 			List<String> errors = ReportValidator.validator(r);
 			if(errors.size() > 0){

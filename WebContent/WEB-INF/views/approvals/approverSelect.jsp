@@ -15,21 +15,23 @@
 						<th>役職</th>
 						<th>社員名</th>
 					</tr>
-					<tr>
-						<td>
-							<c:choose>
-								<c:when test="${pe.employee_id.id == approval.employee.id}">
-									<input type="radio" name="approver_id" value="${pe.employee_id.id}" checked="checked">
-								</c:when>
-								<c:otherwise>
-									<input type="radio" name="approver_id" value="${pe.employee_id.id}">
-								</c:otherwise>
-							</c:choose>
-						</td>
-						<td><c:out value="${pe.employee_id.code}" /></td>
-						<td>PL</td>
-						<td><c:out value="${pe.employee_id.name}" /></td>
-					</tr>
+					<c:if test="${pe.employee_id != null}">
+						<tr>
+							<td>
+								<c:choose>
+									<c:when test="${pe.employee_id.id == approval.employee.id}">
+										<input type="radio" name="approver_id" value="${pe.employee_id.id}" checked="checked">
+									</c:when>
+									<c:otherwise>
+										<input type="radio" name="approver_id" value="${pe.employee_id.id}">
+									</c:otherwise>
+								</c:choose>
+							</td>
+							<td><c:out value="${pe.employee_id.code}" /></td>
+							<td>PL</td>
+							<td><c:out value="${pe.employee_id.name}" /></td>
+						</tr>
+					</c:if>
 					<c:forEach var="director" items="${directors}">
 					<c:choose>
 						<c:when test="${director.id != approval.employee.id}">

@@ -3,6 +3,7 @@ package models;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -48,8 +49,8 @@ public class Report {
 	@JoinColumn(name = "employee_id", nullable = false)
 	private Employee employee;
 
-	@ManyToOne
-	@JoinColumn(name = "project_id", nullable = false)
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "project_id")
 	private Project project;
 
 	@Column(name = "report_date", nullable = false)
