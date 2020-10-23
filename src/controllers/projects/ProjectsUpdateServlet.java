@@ -48,8 +48,8 @@ public class ProjectsUpdateServlet extends HttpServlet {
 
 			//古いPE情報を取得
 			List<ProjectEmployee> pes_old = em.createNamedQuery("getProjectMembers", ProjectEmployee.class)
-															.setParameter("project", p)
-															.getResultList();
+												.setParameter("project", p)
+												.getResultList();
 
 			//project-employeeインスタンスを作成
 			@SuppressWarnings("unchecked")

@@ -51,18 +51,18 @@ public class TopPageIndexServlet extends HttpServlet {
 													.setParameter("employee", login_employee)
 													.getResultList();
 
-		//差し戻しされたに関する承認情報を取得
+		//差し戻しされた日報に関する承認情報を取得
 		List<Approval> approvals_remanded = em.createNamedQuery("getRemandedReports", Approval.class)
 													.setParameter("employee", login_employee)
 													.getResultList();
 
 
-		//作業中のに関する承認情報を取得
+		//作業中の日報に関する承認情報を取得
 		List<Approval> approvals_editing = em.createNamedQuery("getEditingReports", Approval.class)
 												.setParameter("employee", login_employee)
 												.getResultList();
 
-		//承認されたに関する承認情報を取得
+		//承認された日報に関する承認情報を取得
 		List<Approval> approvals_approved = em.createNamedQuery("getApprovedReports", Approval.class)
 												.setParameter("employee", login_employee)
 												.setFirstResult(15 * (page - 1))

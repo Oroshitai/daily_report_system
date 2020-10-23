@@ -67,6 +67,7 @@ import javax.persistence.Table;
 					+ "WHERE a.report = ap.report "
 					+ "AND ap.report.employee = :employee) "
 					+ "And a.approvalStatus = 2"
+					+ "ORDER BY a.id DESC"
 			)
 })
 @Entity

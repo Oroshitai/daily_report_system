@@ -55,7 +55,7 @@ public class EmployeeSearch extends HttpServlet {
 		}
 
 
-		Project p = new Project();
+		Project p = (Project) request.getSession().getAttribute("project_editing");
 
 		p.setTitle(request.getParameter("title"));
 		p.setCustomer(request.getParameter("customer"));
