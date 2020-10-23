@@ -24,21 +24,18 @@
 <br /><br />
 
 <label for="project">プロジェクト名</label><br />
-<c:choose>
-	<c:when test="${projects.size() == 0}">
-		プロジェクト情報が登録されていません
-		<input type="hidden" name="projectId" value="">
-	</c:when>
-	<c:otherwise>
-		<select name="projectId">
-			<c:forEach var="project" items="${projects}">
-		    	<option value="${project.id}" <c:if test="${project.id == report.project.id}">selected</c:if>>
-		    		<c:out value="${project.title}" />
-		    	</option>
-		    </c:forEach>
-		</select>
-	</c:otherwise>
-</c:choose>
+
+<select name="projectId">
+	<option value="0" <c:if test="${report.project.id == null}">selected</c:if>>
+		無所属
+	</option>
+	<c:forEach var="project" items="${projects}">
+    	<option value="${project.id}" <c:if test="${project.id == report.project.id}">selected</c:if>>
+    		<c:out value="${project.title}" />
+    	</option>
+    </c:forEach>
+</select>
+
 <br /><br />
 
 <label for="content">内容</label><br />

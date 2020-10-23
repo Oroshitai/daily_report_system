@@ -19,7 +19,14 @@
 				<tr>
 					<th>プロジェクト情報</th>
 					<td>
-						<c:out value="${report.project.title}" />(客先：<c:out value="${report.project.customer}" />)
+						<c:choose>
+							<c:when test="${report.project == null}">
+								プロジェクト無所属
+							</c:when>
+							<c:otherwise>
+								<c:out value="${report.project.title}" />(客先：<c:out value="${report.project.customer}" />)
+							</c:otherwise>
+						</c:choose>
 					</td>
 				</tr>
 				<tr>

@@ -31,7 +31,7 @@ import javax.persistence.Table;
 					+ "WHERE a.created_at = "
 					+ "(SELECT max(ap.created_at) FROM Approval AS ap "
 					+ "WHERE a.report = ap.report "
-					+ "AND a.employee = :employee) "
+					+ "AND a.report.employee = :employee) "
 					+ "And a.approvalStatus = 0"
 					+ "ORDER BY a.created_at"
 			),
@@ -41,7 +41,7 @@ import javax.persistence.Table;
 					+ "WHERE a.created_at = "
 					+ "(SELECT max(ap.created_at) FROM Approval AS ap "
 					+ "WHERE a.report = ap.report "
-					+ "AND a.report.employee = :employee) "
+					+ "AND ap.report.employee = :employee) "
 					+ "And a.approvalStatus = 3"
 					+ "ORDER BY a.created_at"
 			),
@@ -65,7 +65,7 @@ import javax.persistence.Table;
 					+ "WHERE a.created_at = "
 					+ "(SELECT max(ap.created_at) FROM Approval AS ap "
 					+ "WHERE a.report = ap.report "
-					+ "AND a.report.employee = :employee) "
+					+ "AND ap.report.employee = :employee) "
 					+ "And a.approvalStatus = 2"
 			)
 })

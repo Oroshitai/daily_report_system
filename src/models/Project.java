@@ -20,6 +20,12 @@ import javax.persistence.Table;
 	@NamedQuery(
 			name = "getProjectsCount",
 			query = "SELECT COUNT(p) FROM Project AS p"
+			),
+	@NamedQuery(
+			name = "getOpenProjects",
+			query = "SELECT p FROM Project AS p "
+					+ "WHERE p.delete_flag = 0 "
+					+ "ORDER BY p.id DESC"
 			)
 })
 @Table(name = "projects")

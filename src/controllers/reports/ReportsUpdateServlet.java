@@ -70,15 +70,23 @@ public class ReportsUpdateServlet extends HttpServlet {
 						.setParameter("project", p)
 						.getSingleResult();
 
-				r.setProject(p);
+				//承認者を更新
+				if(!p.equals(r.getProject())){
+					a.setEmployee(pe.getEmployee_id());
+				}
+
+
 
 			} catch(NumberFormatException nfe){
 			} catch(PropertyValueException pve){
 			} catch(PersistenceException pex){}
 
+			if(request.getParameter("projectId") == "0"){
+				r.setProject(null);
+			} else{
+				r.setProject(p);
+			}
 
-			//承認者を更新
-			a.setEmployee(pe.getEmployee_id());
 
 			List<String> errors = ReportValidator.validator(r);
 			if(errors.size() > 0){

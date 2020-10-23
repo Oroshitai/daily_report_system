@@ -15,7 +15,7 @@
 						<th>役職</th>
 						<th>社員名</th>
 					</tr>
-					<c:if test="${pe.employee_id != null}">
+					<c:if test="${pe.employee_id.id != null}">
 						<tr>
 							<td>
 								<c:choose>

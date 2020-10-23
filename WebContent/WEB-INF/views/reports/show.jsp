@@ -69,7 +69,7 @@
 										</div>
 									</c:otherwise>
 								</c:choose>
-								<c:if test="${approval.approvalStatus == 0}">
+								<c:if test="${approval.approvalStatus == 0 && sessionScope.login_employee.id == report.employee.id}">
 									<div class="approver-button">
 										<form method="POST" action="${pageContext.request.contextPath}/approvals/approverSelect">
 											<input type="hidden" name="report_id" value="${report.id}">

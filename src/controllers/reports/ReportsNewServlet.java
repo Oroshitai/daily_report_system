@@ -38,7 +38,7 @@ public class ReportsNewServlet extends HttpServlet {
 		EntityManager em = DBUtil.createEntityManager();
 
 		//プロジェクト情報を取得
-		List<Project> projects = em.createNamedQuery("getAllProjects", Project.class)
+		List<Project> projects = em.createNamedQuery("getOpenProjects", Project.class)
 													.getResultList();
 
 		em.close();

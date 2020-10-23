@@ -19,9 +19,8 @@ import javax.persistence.Table;
 				),
 		@NamedQuery(
 				name = "getProjectLeader",
-				query = "select pe from ProjectEmployee as pe "
-						+ "where pe.project_id = :project and pe.leader_flag = 1"
-						+ "order by pe.leader_flag desc"
+				query = "SELECT pe FROM ProjectEmployee AS pe "
+						+ "WHERE pe.project_id = :project AND pe.leader_flag = 1"
 				)
 })
 @Entity

@@ -56,9 +56,9 @@ public class ApprovalsApproverSelectServlet extends HttpServlet {
 			ProjectEmployee pe = new ProjectEmployee();
 
 			try{
-				em.createNamedQuery("getProjectLeader", ProjectEmployee.class)
-				.setParameter("project", r.getProject())
-				.getSingleResult();
+				pe = em.createNamedQuery("getProjectLeader", ProjectEmployee.class)
+						.setParameter("project", r.getProject())
+						.getSingleResult();
 			} catch(NoResultException nre){}
 
 

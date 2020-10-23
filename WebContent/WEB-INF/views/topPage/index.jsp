@@ -23,7 +23,7 @@
 					</tr>
 					<c:forEach var="approval" items="${approvals_requested}" varStatus="status">
 						<tr class="row${status.count % 2}">
-							<td class="report_name"><c:out value="${approval.employee.name}" /></td>
+							<td class="report_name"><c:out value="${approval.report.employee.name}" /></td>
 							<td class="report_date"><fmt:formatDate value="${approval.report.report_date}" pattern='yyyy-MM-dd' /></td>
 							<td class="report_title"><c:out value="${approval.report.title}" /></td>
 							<td class="report_action"><a href="<c:url value='/approvals/check?id=${approval.report.id}' />">承認ページ</a></td>
@@ -47,7 +47,7 @@
 					</tr>
 					<c:forEach var="approval" items="${approvals_remanded}" varStatus="status">
 						<tr class="row${status.count % 2}">
-							<td class="report_name"><c:out value="${approval.employee.name}" /></td>
+							<td class="report_name"><c:out value="${approval.report.employee.name}" /></td>
 							<td class="report_date"><fmt:formatDate value="${approval.report.report_date}" pattern='yyyy-MM-dd' /></td>
 							<td class="report_title"><c:out value="${approval.report.title}" /></td>
 							<td class="report_action"><a href="<c:url value='/reports/show?id=${approval.report.id}' />">詳細を見る</a></td>
@@ -71,7 +71,7 @@
 					</tr>
 					<c:forEach var="approval" items="${approvals_editing}" varStatus="status">
 						<tr class="row${status.count % 2}">
-							<td class="report_name"><c:out value="${approval.employee.name}" /></td>
+							<td class="report_name"><c:out value="${approval.report.employee.name}" /></td>
 							<td class="report_date"><fmt:formatDate value="${approval.report.report_date}" pattern='yyyy-MM-dd' /></td>
 							<td class="report_title"><c:out value="${approval.report.title}" /></td>
 							<td class="report_action"><a href="<c:url value='/reports/show?id=${approval.report.id}' />">詳細を見る</a></td>
